@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- sqlSession 이 찾아올 수 있는 첫번째 주소 이름 -->
+<mapper namespace="user">
+
+	<insert id="join" parameterType="UserVo">
+		<selectKey keyProperty="userNo" resultType="int" order="BEFORE">
+		select seq_users_no.nextval from dual
+		</selectKey>
+	<![CDATA[
+		insert into users values (#{userNo}, #{id}, #{userName}, #{password}, sysdate)
+	]]>
+	</insert>
+		
+	<select id="loginByIdAndPw" parameterType="map" resultType="UserVo">
+	<![CDATA[
+		select userno, id, username, password, joindate
+		from users
+		where id= #{id} and password = #{password}
+		]]>  
+	</select>
+	
+</mapper>

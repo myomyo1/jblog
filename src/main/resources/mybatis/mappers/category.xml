@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- sqlSession 이 찾아올 수 있는 첫번째 주소 이름 -->
+<mapper namespace="cate">
+	
+	<insert id="createCategory" parameterType="int">
+	<![CDATA[
+		insert into category
+		values (seq_category_no.nextval, #{userNo}, 'test cateName test', 'test description test', sysdate)		
+	]]>
+	</insert>
+	
+	<select id="getCategoryInfo" parameterType="int" resultType="CategoryVo">
+	<![CDATA[
+		select c.cateno, b.userno, c.catename, c.description, c.regdate
+		from blog b, category c
+		where b.userno = c.userno and c.userno = #{userNo}
+		
+		]]>  
+	</select>
+	
+</mapper>
