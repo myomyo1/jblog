@@ -4,19 +4,34 @@
 <!-- sqlSession 이 찾아올 수 있는 첫번째 주소 이름 -->
 <mapper namespace="blog">
 	
-	<insert id="createblog" parameterType="int">
+	<insert id="createblog" parameterType="UserVo">
 	<![CDATA[
 		insert into blog 
-		values (#{userNo}, 'test타이틀입니다test', 'test사진입니다test')		
+		values (#{userNo}, #{userName}||'님의 블로그입니다.', 'test사진입니다test')		
 	]]>
 	</insert>
 		
 	<select id="getBlogInfo" parameterType="String" resultType="BlogVo">
 	<![CDATA[
-		select u.id, b.userno, b.blogtitle, b.logofile
+		select u.id,u.username, b.userno, b.blogtitle, b.logofile
 		from blog b, users u
 		where u.userno=b.userno and u.id=#{id}
 		]]>  
 	</select>
 	
+	<update id="updateByTitle" parameterType = "map" >
+	<![CDATA[
+		update blog set
+		blogTitle= #{blogTitle}
+		where id=#{id}
+	]]>
+	</update>
+	
+	<update id="updateByFile" parameterType = "FileVo" >
+	<![CDATA[
+		update blog set
+		saveName= #{saveName}
+		where id=#{id}
+	]]>
+	</update>
 </mapper>

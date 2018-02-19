@@ -11,24 +11,9 @@
 
 	<div id="container">
 		
-		<!-- 블로그 해더 -->
-		<div id="header">
-		<h1>${bvo.blogTitle}</h1>
-			<ul>
-			<c:choose>
-				<c:when test="${empty authUser}">
-					<li><a href="${pageContext.request.contextPath}/user/loginForm">로그인</a></li>
-				</c:when>
-				<c:otherwise>
-					<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
-					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">내블로그관리</a></li> 
-				</c:otherwise>
-			</c:choose>
-			</ul>
-		</div>
-		<!-- /블로그 해더 -->
-		
-		
+		<!-- 블로그 헤더 -->
+		<c:import url="/WEB-INF/views/BlogIncludes/header.jsp"></c:import>
+				
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
@@ -37,19 +22,19 @@
 					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath }/${authUser.id}/admin/settingUpdate" method="post" enctype="multipart/form-data">
 	 		      	<table class="admin-config">
 			      		<tr>
-			      			<td class="t">${bvo.blogTitle}</td>
+			      			<td class="t">블로그 제목</td>
 			      			<td><input type="text" size="40" name="title"></td>
 			      		</tr>
 			      		<tr>
-			      			<td class="t">${bvo.logoFile}</td>
-			      			<td><img src="/jblog/assets/images/pic.jpg"></td>      			
+			      			<td class="t">로고 이미지</td>
+			      			<td><img src="/jblog/assets/images/spring-logo.jpg"></td>      			
 			      		</tr>      		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
-			      			<td><input type="file" name="logo-file"></td>      			
+			      			<td><input type="file" name="file"></td>      			
 			      		</tr>           		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
@@ -60,13 +45,8 @@
 			</div>
 		</div>
 		
-		<!-- 푸터 -->
-		<div id="footer">
-			<p>
-				<strong>Spring 이야기</strong> is powered by JBlog (c)2018
-			</p>
-		</div>
-		<!-- 푸터 -->
+		<!-- 블로그 푸터 -->
+		<c:import url="/WEB-INF/views/BlogIncludes/footer.jsp"></c:import>
 	
 	</div>
 </body>

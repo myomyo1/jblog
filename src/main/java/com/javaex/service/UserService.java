@@ -25,7 +25,7 @@ public class UserService {
 		udao.join(uservo); //회원가입 
 		System.out.println("서비스 후 :" + uservo.toString());
 		//userno 가지고 와서 블로그, 카테고리 만들기
-		bdao.createblog(uservo.getUserNo());
+		bdao.createblog(uservo);
 		cdao.createcategory(uservo.getUserNo()); 
 	}
 

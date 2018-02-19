@@ -27,7 +27,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/join")
-	public String join(@ModelAttribute UserVo uservo) { //id, userName, password 받아서 joinvo에 넣은 것 
+	public String join(@ModelAttribute UserVo uservo) { //id, userName, password 받아서 uservo에 넣은 것 
 		uservice.join(uservo); //회원가입
 		return "user/joinSuccess";
 	}
