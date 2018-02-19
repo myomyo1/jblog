@@ -1,6 +1,15 @@
 package com.javaex.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,17 +61,50 @@ public class BlogController {
 	}
 	
 	@RequestMapping(value="/{id}/admin/settingUpdate")
-	public String settingUpdate(@PathVariable("id") String id, @RequestParam("title") String title, @RequestParam("file") MultipartFile file, Model model) {
+	public String settingUpdate(@PathVariable("id") String id, @RequestParam("userNo")String userNo, @RequestParam("title") String title, @RequestParam("file") MultipartFile file, Model model) {
+		//Number는 이미 세션에 authUser에 저장 되어 있음
+		System.out.println("update blog Setting start");
+		bservice.updateBlogInfo(userNo, title, file);
 		
-		//블로그제목
-		bservice.updateByTitle(title, id);
+		return "redirect:/"+id;
+	}
+	
+	//이미지 관련 요청 받고 나서 이미지 보여주기
+	@RequestMapping(value="/logo/{userNo}")
+	public void logoImage(@PathVariable("userNo") String userNo, @RequestParam("logoFile")String logoFile, HttpServletResponse response ) throws IOException {
 		
-		//로고이미지
-		String saveName = bservice.updateByFile(file);
-		String url = "upload/"+ saveName; //jsp에게 보낼때 dispatcherServlet필요 (모델에담아보내면됨)
-		model.addAttribute("url", url); //DS가 result.jsp로 보내줌
+		System.out.println("request image userNo : " + userNo);
+		System.out.println("request file name : " + logoFile);
 		
-		return "redirect:/blog/admin/blog-admin-basic";
+		//1. 파일 불러오기 - FileInputStream
+		String imageDir = "C:\\myosun\\uploads";
+		File file = new File(imageDir+"\\"+logoFile);
+		
+		//파일이 존재 하지 않으면 기본 이미지로
+		if(!file.exists()) {
+			new File(imageDir+"\\spring-logo.jpg");
+		}
+		
+		FileInputStream in = new FileInputStream(file);
+		BufferedInputStream bis = new BufferedInputStream(in);
+		
+		//response객체에서 OutputStream 꺼내기
+		ServletOutputStream out = response.getOutputStream();
+		BufferedOutputStream bos = new BufferedOutputStream(out);
+		
+		//꺼내서 전송하기
+		 int sendData = -1;
+		 byte [] buffer = new byte[65535];
+		 while((sendData = bis.read(buffer)) != -1) {
+			 out.write(buffer,0,sendData);
+		 }
+		 
+		bos.flush();
+		bis.close();
+		
+		
+		
+		
 	}
 
 

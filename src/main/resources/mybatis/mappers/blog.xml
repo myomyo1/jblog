@@ -7,7 +7,7 @@
 	<insert id="createblog" parameterType="UserVo">
 	<![CDATA[
 		insert into blog 
-		values (#{userNo}, #{userName}||'님의 블로그입니다.', 'test사진입니다test')		
+		values (#{userNo}, #{userName}||'님의 블로그입니다.', 'spring-logo.jpg')		
 	]]>
 	</insert>
 		
@@ -20,18 +20,18 @@
 	</select>
 	
 	<update id="updateByTitle" parameterType = "map" >
-	<![CDATA[
-		update blog set
-		blogTitle= #{blogTitle}
-		where id=#{id}
-	]]>
+		<![CDATA[
+			update blog set
+			blogTitle= #{blogTitle}
+			where userno=#{userNo}
+		]]>
 	</update>
 	
-	<update id="updateByFile" parameterType = "FileVo" >
+	<update id="updateBlogSetting" parameterType = "BlogVo" >
 	<![CDATA[
 		update blog set
-		saveName= #{saveName}
-		where id=#{id}
+		logofile = #{logoFile}, blogTitle=#{blogTitle}
+		where userno=#{userNo}
 	]]>
 	</update>
 </mapper>

@@ -6,9 +6,7 @@ public class BlogVo {
 	private String blogTitle;
 	private String logoFile;
 
-	public BlogVo() {
-		
-	}
+	public BlogVo() {}
 	
 	public BlogVo(int userNo, String blogTitle, String logoFile) {
 		this.userNo = userNo;

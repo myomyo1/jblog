@@ -26,6 +26,10 @@ public class BlogDao {
 		
 	}
 	
+	public void updateBlogSetting(BlogVo bvo) {
+		session.update("blog.updateBlogSetting", bvo);
+	}
+	
 	public void updateByTitle(Map<String, String> map) {
 		session.update("blog.updateByTitle", map);
 	}

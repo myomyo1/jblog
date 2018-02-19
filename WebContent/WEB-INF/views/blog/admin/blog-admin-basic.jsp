@@ -23,6 +23,8 @@
 				</ul>
 				
 				<form action="${pageContext.request.contextPath }/${authUser.id}/admin/settingUpdate" method="post" enctype="multipart/form-data">
+				
+					<input type="hidden" value=${authUser.userNo } name="userNo" />
 	 		      	<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>

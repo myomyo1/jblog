@@ -35,7 +35,8 @@
 
 		<div id="extra">
 			<div class="blog-logo">
-				<img src="/jblog/assets/images/spring-logo.jpg">
+				<!-- src에 이 블로그 주인의 사진을 요청 /logo/{userNo}?logoFile=로고파일이름~~ -->
+				<img src="${pageContext.request.contextPath}/logo/${ bvo.userNo }?logoFile=${bvo.logoFile}">
 			</div>
 		</div>
 
