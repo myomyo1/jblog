@@ -22,17 +22,16 @@
 					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-				<form action="${pageContext.request.contextPath }/${authUser.id}/admin/settingUpdate" method="post" enctype="multipart/form-data">
+				<form action="${pageContext.request.contextPath }/${authUser.id}/admin/updateBlogSetting" method="post" enctype="multipart/form-data">
 				
-					<input type="hidden" value=${authUser.userNo } name="userNo" />
-	 		      	<table class="admin-config">
+					<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" name="title"></td>
+			      			<td><input type="text" size="40" name="title" value ="${bvo.blogTitle}"  ></td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">로고 이미지</td>
-			      			<td><img src="/jblog/assets/images/spring-logo.jpg"></td>      			
+			      			<td><img src="${pageContext.request.contextPath}/upload/${bvo.logoFile}"></td>      			
 			      		</tr>      		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>

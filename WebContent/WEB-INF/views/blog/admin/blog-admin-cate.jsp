@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/assets/css/jblog.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+
 <title>JBlog</title>
 <link rel="stylesheet" href="/jblog/assets/css/jblog.css">
+
+
+
 </head>
 <body>
 
@@ -23,37 +30,17 @@
 					<li class="selected"><a href="${pageContext.request.contextPath}/${authUser.id}/admin/category">카테고리</a></li>
 					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
-				
+				<!-- 카테고리 리스트 테이블 -->
 		      	<table class="admin-cat">
-		      		<tr>
+		      		<tr id="categoryAdd">
 		      			<th>번호</th>
 		      			<th>카테고리명</th>
 		      			<th>포스트 수</th>
 		      			<th>설명</th>
 		      			<th>삭제</th>      			
 		      		</tr>
-					<tr>
-						<td>3</td>
-						<td>미분류</td>
-						<td>10</td>
-						<td>카테고리를 지정하지 않은 경우</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>  
-					<tr>
-						<td>2</td>
-						<td>스프링 스터디</td>
-						<td>20</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>스프링 프로젝트</td>
-						<td>15</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>					  
 				</table>
+								
       	
       			<h4 class="n-c">새로운 카테고리 추가</h4>
 		      	<table id="admin-cat-add">
@@ -67,7 +54,7 @@
 		      		</tr>
 		      		<tr>
 		      			<td class="s">&nbsp;</td>
-		      			<td><input type="submit" value="카테고리 추가"></td>
+		      			<td><input type="submit" id= "cat-add-submit" value="카테고리 추가"></td>
 		      		</tr>      		      		
 		      	</table> 
 			</div>
@@ -78,4 +65,129 @@
 		
 	</div>
 </body>
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	fetchList();
+});
+
+/////////////////////////////////////////////////////////////////////////
+
+var userVo = {
+		userNo : ${sessionScope.authUser.userNo},
+		id : '${sessionScope.authUser.id}',
+		userName : '${sessionScope.authUser.userName}'
+};
+
+console.log(userVo);
+
+function fetchList(){
+	$.ajax({
+		url : "${pageContext.request.contextPath }/admin/categorylist",
+		type : "post",
+		contentType : "application/json",
+		data : JSON.stringify(userVo),
+		
+		dataType : "json",
+		success : function(clist){ //clist 변수명
+			console.log(clist);
+			
+			for(var i =0; i<clist.length; i++){
+				render(clist[i], "down"); //clist 변수명에 인덱스 [i] => 낱개 하나 cvo
+			}
+		},
+		error : function(XHR, status, error) { 	
+			console.error(status + " : " + error);
+		}
+	});
+}
+
+function render(cvo, updown){
+	var str="";
+	str += "		<tr id='c"+cvo.cateNo +"'>";
+	str += "			<td>" + cvo.cateNo + "</td>";
+	str += "			<td>" + cvo.cateName + "</td>";
+	str += "			<td>" + cvo.cnt + "</td>";
+	str += "			<td>" + cvo.description + "</td>";
+	str += "			<td><img data-no='"+ cvo.cateNo +"' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";		
+	str += "		</tr>";
+
+	if(updown == "up"){
+		$("#categoryAdd").prepend(str);
+	}else if(updown =="down"){
+		$("#categoryAdd").after(str);
+	}else {
+		console.log("updown오류");
+	}
+		
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+$("#cat-add-submit").on("click", function(){
+	var userNo = ${sessionScope.authUser.userNo};
+	var name = $("[name=name]").val();
+	var desc = $("[name=desc]").val();
+	 
+	console.log(name);
+	console.log(desc);
+	console.log(userNo);
+	 
+	var cvo = { //자바스크립트용 객체만든 것 위에있는 변수 담은 것.
+			userNo : userNo,
+			cateName : name,
+			description : desc
+	};
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath }/admin/categoryAdd",		
+		type : "post",
+		contentType : "application/json",
+		data : JSON.stringify(cvo),
+					
+		
+		dataType : "json",
+		success : function(cvo){ 
+			render(cvo,"down");
+		},
+		error : function(XHR, status, error) { 	
+			console.error(status + " : " + error);
+		}
+	});
+});
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+$(".admin-cat").on("click", "img" , function(){
+	var td = $(this);
+	var cateNo = td.data("no");
+	console.log(cateNo);
+	var userNo = ${sessionScope.authUser.userNo};
+
+	$.ajax({
+		url : "${pageContext.request.contextPath }/admin/categoryDelete",		
+		type : "post",
+		contentType : "application/json",
+		data : JSON.stringify(cateNo),
+					
+		
+		dataType : "json",
+		success : function(resultNum){ 
+			if(resultNum!=0){
+				$("#c"+cateNo).remove();
+			}
+		},
+		error : function(XHR, status, error) { 	
+			console.error(status + " : " + error);
+		}
+	});
+});
+
+</script>
+
+
 </html>
+
+

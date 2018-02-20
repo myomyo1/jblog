@@ -1,11 +1,11 @@
 package com.javaex.service;
 
 import java.io.BufferedOutputStream;
+
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.vo.BlogVo;
-import com.javaex.vo.FileVo;
+
 
 @Service
 public class BlogService {
@@ -26,18 +26,9 @@ public class BlogService {
 		return bdao.getBlogInFo(id);
 	}
 
-	public void updateByTitle(String title, String id) {
-
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("title", title);
-		map.put("id", id);
-		bdao.updateByTitle(map);
-	}
-
-	public void updateBlogInfo(String userNo, String title, MultipartFile file) {
-		String logoFile = updateByFile(file);
-		
-		BlogVo vo = new BlogVo(Integer.valueOf(userNo), title, logoFile);
+	public void updateBlogSetting(int userNo, String title, MultipartFile file) {
+		String logoFile = updateByFile(file); //updatebyFile은 saveName을 리턴하기 때문에 logoFile이라는 이름으로 다시 저장해준 것.
+		BlogVo vo = new BlogVo(userNo, title, logoFile);
 		bdao.updateBlogSetting(vo);
 	}
 
@@ -46,7 +37,7 @@ public class BlogService {
 		System.out.println("파일 업로드 시작");
 		
 		// 카피하는일
-		String saveDir = "C:\\myosun\\uploads";
+		String saveDir = "D:\\javaStudy\\upload";
 
 		// 파일정보 수집
 
@@ -66,10 +57,6 @@ public class BlogService {
 		// 파일사이즈
 		long fileSize = file.getSize();
 		System.out.println(fileSize);
-
-		// vo만들어서 dao통해서 DB에 저장
-		// FileVo fvo = new FileVo(orgName, exName, saveName, filePath, fileSize);
-		// bdao.updateByFile(fvo);
 
 		// 파일카피
 		try {

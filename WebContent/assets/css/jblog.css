@@ -10,8 +10,6 @@ a:visited 		{ color:#696969F; text-decoration:none; font-weight:bold; }
 a:active 		{ color:#696969; text-decoration:none; font-weight:bold; }
 a:hover 		{ color:#dc143c; text-decoration:none; font-weight:bold; } 
 
-
-
 .center-content	{ width:500px; margin:120px auto 50px auto}
 
 .center-content .logo							{ width:163px; height:104px; margin:20px auto; text-indent:-100000px; font-size:0 }

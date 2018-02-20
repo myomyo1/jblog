@@ -36,7 +36,8 @@
 		<div id="extra">
 			<div class="blog-logo">
 				<!-- src에 이 블로그 주인의 사진을 요청 /logo/{userNo}?logoFile=로고파일이름~~ -->
-				<img src="${pageContext.request.contextPath}/logo/${ bvo.userNo }?logoFile=${bvo.logoFile}">
+				<%-- <img src="${pageContext.request.contextPath}/logo/${ bvo.userNo }?logoFile=${bvo.logoFile}"> --%>
+				<img src="${pageContext.request.contextPath}/upload/${bvo.logoFile}">
 			</div>
 		</div>
 

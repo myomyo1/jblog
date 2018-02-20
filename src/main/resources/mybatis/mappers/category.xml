@@ -11,13 +11,42 @@
 	]]>
 	</insert>
 	
-	<select id="getCategoryInfo" parameterType="int" resultType="CategoryVo">
+<!-- 	<select id="getCategoryInfo" parameterType="int" resultType="CategoryVo">
 	<![CDATA[
 		select c.cateno, b.userno, c.catename, c.description, c.regdate
 		from blog b, category c
 		where b.userno = c.userno and c.userno = #{userNo}
 		
 		]]>  
+	</select> -->
+	
+	<select id="getCategoryList" parameterType="int" resultType="CategoryVo">
+	<![CDATA[
+		select c.userno, c.cateno, c.catename, c.description, nvl(pp.cp,0) cnt
+		from ( select cateno, count(postno) cp 
+    	    	from post
+	        	group by cateno ) pp, category c
+		where c.cateno = pp.cateno(+) and c.userno = #{userNo}
+		order by c.cateno desc
+	]]>
 	</select>
+	
+	<insert id="addCategory" parameterType="CategoryVo">
+		<selectKey keyProperty="cateNo" resultType="int" order="BEFORE">
+			select seq_category_no.nextval from dual
+		</selectKey>
+	<![CDATA[
+		insert into category
+		values (#{cateNo}, #{userNo} , #{cateName}, #{description}, sysdate)
+	]]>
+	</insert>
+	
+	<delete id="deleteCategory" parameterType= "int">
+	<![CDATA[
+		delete
+		from category
+		where cateno = #{cateNo}
+	]]>
+	</delete>
 	
 </mapper>

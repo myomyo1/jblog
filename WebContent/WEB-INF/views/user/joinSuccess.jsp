@@ -11,7 +11,7 @@
 <body>
 	<div class="center-content">
 				
-		<!-- main header -->
+		<!-- 메인 헤더 -->
 		<c:import url="/WEB-INF/views/MainIncludes/header.jsp"></c:import>
 		
 		<p class="welcome-message">

@@ -13,24 +13,24 @@
 		
 	<select id="getBlogInfo" parameterType="String" resultType="BlogVo">
 	<![CDATA[
-		select u.id,u.username, b.userno, b.blogtitle, b.logofile
+		select b.userno, b.blogtitle, b.logofile
 		from blog b, users u
 		where u.userno=b.userno and u.id=#{id}
 		]]>  
 	</select>
-	
-	<update id="updateByTitle" parameterType = "map" >
-		<![CDATA[
-			update blog set
-			blogTitle= #{blogTitle}
-			where userno=#{userNo}
-		]]>
-	</update>
-	
+		
 	<update id="updateBlogSetting" parameterType = "BlogVo" >
 	<![CDATA[
 		update blog set
 		logofile = #{logoFile}, blogTitle=#{blogTitle}
+		where userno=#{userNo}
+	]]>
+	</update>
+	
+	<update id="updateByTitle" parameterType = "map" >
+	<![CDATA[
+		update blog set
+		blogTitle= #{blogTitle}
 		where userno=#{userNo}
 	]]>
 	</update>
