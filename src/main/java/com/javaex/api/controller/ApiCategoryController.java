@@ -22,7 +22,7 @@ public class ApiCategoryController {
 	
 	@ResponseBody
 	@RequestMapping(value="/admin/categorylist", method=RequestMethod.POST)
-	public List<CategoryVo> category( @RequestBody UserVo userVo) {
+	public List<CategoryVo> category(@RequestBody UserVo userVo) {
 		return cservice.getCategoryList(userVo.getUserNo());
 	}
 	

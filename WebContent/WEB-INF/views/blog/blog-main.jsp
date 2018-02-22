@@ -18,7 +18,7 @@
 		<div id="wrapper">
 			<div id="content">
 				<div class="blog-content">
-					<h4>Spring Camp 2016 참여기</h4>
+					<h4></h4>
 					<p>
 						
 					<p>
@@ -43,10 +43,11 @@
 
 		<div id="navigation">
 			<h2>카테고리</h2>
-			<ul>
-				<li><a href="">${cvo.cateName }</a></li>	<!-- 포이치문으로 리스트보여줘야함 -->
-		
-			</ul>
+				<c:forEach items="${clist}" var="c" varStatus="status">
+					<ul>
+						<li><a href="">${c.cateName}</a></li>
+					</ul>
+				</c:forEach> 
 		</div>
 		
 		<!-- 블로그 푸터 -->

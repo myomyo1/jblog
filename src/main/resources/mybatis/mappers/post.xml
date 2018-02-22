@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- sqlSession 이 찾아올 수 있는 첫번째 주소 이름 -->
+<mapper namespace="post">
+	
+	<insert id="posting" parameterType="map">
+		<selectKey keyProperty="postNo" resultType="String" order="BEFORE">
+			select seq_post_no.nextval postNo from dual
+		</selectKey>
+		<![CDATA[
+			insert into post
+			values (#{postNo}, #{cateNo} , #{title}, #{content}, sysdate)
+		]]>
+	</insert>	
+</mapper>

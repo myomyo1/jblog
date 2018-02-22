@@ -16,7 +16,7 @@
 		
 		<form class="login-form" method="post" action="${pageContext.request.contextPath}/user/login">
       		<label>아이디</label> 
-      		<input type="text" name="id" value="${param.id} ">
+      		<input type="text" name="id" value="">
       		
       		<label>패스워드</label> 
       		<input type="password" name="password">

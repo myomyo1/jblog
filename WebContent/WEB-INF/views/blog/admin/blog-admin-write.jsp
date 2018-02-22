@@ -25,16 +25,17 @@
 				</ul>
 				
 				
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath }/${authUser.id}/admin/posting" method="post">
 			      	<table class="admin-cat-write">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
 			      				<input type="text" size="60" name="title">
-				      			<select name="category">
-				      				<option>미분류</option>
-				      				<option>자바</option>
-				      			</select>
+				      			<select name="category"> <%-- value="${cateNo} 얘는 name으로 넘어가니까 category로 받아야한다 --%>
+				      				<c:forEach items="${clist}" var="c" varStatus="status">
+										<option value="${c.cateNo}">${c.cateName}</option>
+									</c:forEach>
+				       			</select>
 				      		</td>
 			      		</tr>
 			      		<tr>

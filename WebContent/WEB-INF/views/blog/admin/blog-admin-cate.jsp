@@ -116,9 +116,9 @@ function render(cvo, updown){
 	str += "		</tr>";
 
 	if(updown == "up"){
-		$("#categoryAdd").prepend(str);
+		$("#categoryAdd").after(str); //클래스 밑에 th에 id값 주고 그 밑에 바로 붙이라는 의미의 after. th가 아닌 table값을 지정해주면 table(th, th)이므로 테이블 맨 밑으로 가서 붙는다
 	}else if(updown =="down"){
-		$("#categoryAdd").after(str);
+		$(".admin-cat").append(str); //클래스값에 append이면 클래스 맨뒤에다 붙이라는 것. 
 	}else {
 		console.log("updown오류");
 	}
@@ -151,12 +151,14 @@ $("#cat-add-submit").on("click", function(){
 		
 		dataType : "json",
 		success : function(cvo){ 
-			render(cvo,"down");
+			render(cvo,"up");
 		},
 		error : function(XHR, status, error) { 	
 			console.error(status + " : " + error);
 		}
 	});
+	$("[name=name]").val("");
+	$("[name=desc]").val("");
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
