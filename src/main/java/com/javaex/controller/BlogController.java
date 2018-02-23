@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.BlogService;
 import com.javaex.service.CategoryService;
+import com.javaex.service.PostService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 import com.javaex.vo.UserVo;
 
 
@@ -28,16 +30,24 @@ public class BlogController {
 	@Autowired
 	CategoryService cservice;
 	
+	@Autowired
+	PostService pservice;
+	
 	@RequestMapping(value="/{id}")
 	public String blog(@PathVariable("id") String id, Model model) {
+		
 		BlogVo bvo = bservice.getBlogInfo(id);
 		model.addAttribute("bvo", bvo); //bvo에는 userNo, blogTitle, logoFile 정보 들어있음
 		System.out.println(bvo.toString() + "블로그정보뽑아보기aaaaaaaa"); 
-		System.out.println(bvo.getBlogTitle() + "블로그타이틀");
-		
+				
 		List<CategoryVo> clist= cservice.getCategoryList(bvo.getUserNo());
 		model.addAttribute("clist", clist);
 		System.out.println(clist + "카테고리정보뽑아보기bbbbbbbbb");
+		
+		List<PostVo> plist = pservice.getPostList(id);
+		model.addAttribute("plist", plist);
+		System.out.println(plist + "포스트 정보 ccccc");
+		
 		return "blog/blog-main";
 	}
 	

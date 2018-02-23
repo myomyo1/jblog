@@ -13,4 +13,14 @@
 			values (#{postNo}, #{cateNo} , #{title}, #{content}, sysdate)
 		]]>
 	</insert>	
+	
+	<select id="getPostList" parameterType="String" resultType="PostVo">
+	<![CDATA[
+			select p.postNo, p.posttitle, p.postcontent, to_char(p.regdate, 'YYYY/MM/DD') regDate
+			from users u, post p
+			where u.id='wook'
+			order by p.regdate desc
+	]]>
+	</select>
+	
 </mapper>
